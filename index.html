@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recomendaciones del Eneagrama</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Resultados del Test del Eneagrama</h1>
+  <div id="ranking"></div>
+  <div id="recomendacion"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const eneatipos = [];
+
+    for (let i = 1; i <= 9; i++) {
+      const score = parseInt(params.get("e" + i)) || 0;
+      eneatipos.push({ tipo: i, score });
+    }
+
+    eneatipos.sort((a, b) => b.score - a.score);
+
+    const rankingDiv = document.getElementById("ranking");
+    rankingDiv.innerHTML = "<h2>Tu ranking:</h2><ul>" + 
+      eneatipos.map(e => `<li>Eneatipo ${e.tipo}: ${e.score}</li>`).join("") + "</ul>";
+
+    const dominante = eneatipos[0].tipo;
+
+    const recomendaciones = {
+      1: "Eres idealista, ético y perfeccionista. Trabaja en soltar la autoexigencia.",
+      2: "Te orientas a ayudar a otros. Recuerda cuidar de ti también.",
+      3: "Eres ambicioso y eficiente. No olvides conectar con tu interior.",
+      4: "Tienes profundidad emocional. Busca equilibrio entre emoción y realidad.",
+      5: "Intelectual, analítico. Fortalece tus relaciones y expresión emocional.",
+      6: "Leal y precavido. Confía más en ti mismo.",
+      7: "Optimista y entusiasta. Aprende a estar presente en lo difícil.",
+      8: "Fuerte y directo. Cultiva la vulnerabilidad.",
+      9: "Pacífico y conciliador. Afirma tus deseos y decisiones."
+    };
+
+    const recomendacion = recomendaciones[dominante];
+    document.getElementById("recomendacion").innerHTML =
+      `<h2>Tu Eneatipo principal: ${dominante}</h2><p>${recomendacion}</p>`;
+  </script>
+</body>
+</html>
